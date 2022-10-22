@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: {{ model_name }}
+    config:
+      enabled: true | false
+      tags: <string> | [<string>]
+      pre-hook: <sql-statement> | [<sql-statement>]
+      post-hook: <sql-statement> | [<sql-statement>]
+      database: <string>
+      schema: <string>
+      alias: <string>
+      persist_docs: <dict>
+      full_refresh: <boolean>
+      meta: {<dictionary>}
+      grants: {<dictionary>}
+    tests:
+    columns:
+      - name: <string>
+        tests:

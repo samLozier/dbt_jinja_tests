@@ -1,0 +1,14 @@
+{
+  "_output_dir": "/Users/sl/PycharmProjects",
+  "_template": "gh:cjolowicz/cookiecutter-hypermodern-python",
+  "author": "Samuel Lozier",
+  "copyright_year": "2022",
+  "development_status": "Development Status :: 2 - Pre-Alpha",
+  "email": "samLozer@users.noreply.github.com",
+  "friendly_name": "Dbt_Jinja_Tests",
+  "github_user": "samLozier",
+  "license": "MIT",
+  "package_name": "dbt_jinja_tests",
+  "project_name": "dbt_jinja_tests",
+  "version": "0.0.0"
+}
