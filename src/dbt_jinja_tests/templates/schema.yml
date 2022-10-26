@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: {{ model_name }}
+  - name: { { model_name } }
     config:
       enabled: true | false
       tags: <string> | [<string>]
@@ -12,8 +12,8 @@ models:
       alias: <string>
       persist_docs: <dict>
       full_refresh: <boolean>
-      meta: {<dictionary>}
-      grants: {<dictionary>}
+      meta: { { dictionary } }
+      grants: { { <dictionary> } }
     tests:
     columns:
       - name: <string>
