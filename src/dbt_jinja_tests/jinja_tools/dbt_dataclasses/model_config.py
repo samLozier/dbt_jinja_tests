@@ -17,7 +17,7 @@ class ModelType(str, Enum):
     incremental = "incremental"
 
 
-def filepath_validator(filepath) -> Path:
+def filepath_validator(filepath: Path) -> Path:
     """Runs several tests against paths supplied from the manfiest.
 
     Is the file valid, it exists?
@@ -79,11 +79,11 @@ class DbtModel(BaseModel):
     columns: Union[None, dict[str, DbtColumn]]
 
     @validator("path")
-    def path_validate(cls, v):  # noqa
+    def path_validate(cls, v: Path) -> Path:  # noqa
         """Validate filepath."""
         return filepath_validator(v)
 
     @validator("original_file_path")
-    def original_file_path_validate(cls, v):  # noqa
+    def original_file_path_validate(cls, v: Path) -> Path:  # noqa
         """Validate OG file path."""
         return filepath_validator(v)
