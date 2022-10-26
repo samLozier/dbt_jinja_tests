@@ -21,6 +21,7 @@ repos:
         entry: check-yaml
         language: system
         types: [yaml]
+        exclude: ^src/dbt_jinja_tests/templates/
       - id: darglint
         name: darglint
         entry: darglint
