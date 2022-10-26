@@ -1,5 +1,6 @@
 """Load and validate and parse a manifest.json file."""
 import json
+import typing
 from pathlib import Path
 
 from .dbt_dataclasses.model_config import DbtModel
@@ -22,8 +23,8 @@ class ManifestHandler:
         self.raw_manifest = self._read_json(self.manifest_path)
 
     @staticmethod
-    def _read_json(json_path: Path) -> dict[any]:
-        return json.loads(json_path.read_text())
+    def _read_json(json_path: Path) -> dict[str, typing.Any]:
+        return json.loads(json_path.read_text())  # type: ignore[no-any-return]
 
     def load_models(self) -> dict[str, DbtModel]:
         """Loads the manifest nodes as individual pydnatic validated models."""

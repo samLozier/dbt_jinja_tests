@@ -48,7 +48,7 @@ class DbtColumn(BaseModel):
 
     name: str
     description: str
-    meta: dict
+    meta: dict  # type: ignore[type-arg]
     data_type: Union[str, None]  # Optional[ColumnDatatype]
     quote: Optional[str]
 
@@ -67,7 +67,7 @@ class DbtModel(BaseModel):
 
     compiled: bool
     resource_type: ModelType
-    depends_on: dict
+    depends_on: dict  # type: ignore[type-arg]
     unique_id: str
     root_path: Path
     path: Path
