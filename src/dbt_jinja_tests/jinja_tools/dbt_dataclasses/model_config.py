@@ -2,6 +2,7 @@
 from enum import Enum
 from pathlib import Path
 from typing import Dict
+from typing import List
 from typing import Optional
 from typing import Union
 
@@ -75,8 +76,8 @@ class DbtModel(BaseModel):
     name: str
     alias: str
     refs: list[Optional[list[str]]]
-    sources: list[str]
-    columns: Union[None, dict[str, DbtColumn]]
+    sources: List[str]
+    columns: Union[None, Dict[str, DbtColumn]]
 
     @validator("path")
     def path_validate(cls, v: Path) -> Path:  # noqa

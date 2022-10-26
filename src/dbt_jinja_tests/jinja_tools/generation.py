@@ -23,10 +23,10 @@ class ManifestHandler:
         self.raw_manifest = self._read_json(self.manifest_path)
 
     @staticmethod
-    def _read_json(json_path: Path) -> dict[str, typing.Any]:
+    def _read_json(json_path: Path) -> typing.Dict[str, typing.Any]:
         return json.loads(json_path.read_text())  # type: ignore[no-any-return]
 
-    def load_models(self) -> dict[str, DbtModel]:
+    def load_models(self) -> typing.Dict[str, DbtModel]:
         """Loads the manifest nodes as individual pydnatic validated models."""
         models = {}
         for node_name, node_vals in self.raw_manifest.get("nodes", {}).items():
