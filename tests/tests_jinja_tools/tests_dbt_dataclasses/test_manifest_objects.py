@@ -2,7 +2,7 @@
 import typing
 
 from src.dbt_jinja_tests.jinja_tools.dbt_dataclasses.model_config import (
-    DbtModel,  # type: ignore [import]
+    DbtModel,  # type: ignore[import]
 )
 
 

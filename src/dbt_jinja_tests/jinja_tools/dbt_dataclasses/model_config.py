@@ -68,14 +68,14 @@ class DbtModel(BaseModel):
 
     compiled: bool
     resource_type: ModelType
-    depends_on: dict  # type: ignore[type-arg]
+    depends_on: Dict  # type: ignore[type-arg]
     unique_id: str
     root_path: Path
     path: Path
     original_file_path: Path
     name: str
     alias: str
-    refs: list[Optional[list[str]]]
+    refs: List[Optional[List[str]]]
     sources: List[str]
     columns: Union[None, Dict[str, DbtColumn]]
 
