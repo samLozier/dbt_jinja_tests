@@ -1,79 +1,89 @@
+"""Pydnatic models, dtypes, and dataclasses to load manifest.json files."""
 from enum import Enum
 from pathlib import Path
-from dataclasses import dataclass
+from typing import Dict
 from typing import Optional
+from typing import Union
+
+from pydantic import BaseModel
+from pydantic import validator
 
 
-class ModelType(Enum):
-    MODEL = 'model'
-    VIEW = 'view'
-    INCREMENTAL = 'incremental'
+class ModelType(str, Enum):
+    """Basic Dataclass that contains valid dbtmaterialization targets."""
+
+    model = "model"
+    view = "view"
+    incremental = "incremental"
 
 
-@dataclass
-class BasePathCls:
+def filepath_validator(filepath) -> Path:
+    """Runs several tests against paths supplied from the manfiest.
 
-    path: Path
-
-    def __int__(self, path: [Path, str]):
-        if isinstance(path, Path):
-            self.path = path
-        else:
-            self.path = Path(path)
-        if not self.path.exists():
-            raise ValueError
+    Is the file valid, it exists?
+    Could be expanded to check the overlap with the cwd.
+    """
+    if not filepath.is_file() and filepath.exists() and filepath.suffix == ".sql":
+        raise ValueError
+    return filepath
 
 
-@dataclass
-class RootPath(BasePathCls):
-    root_path: Path
-
-    def __init__(self, base_path: [Path, str]):
-        super(base_path).__init__()
-        self.base_path = self.path
-        if not self.base_path.is_dir():
-            raise ValueError
+def folder_path_validator(folderpath: Path) -> Path:
+    """Basic Validator to check validity of folder paths."""
+    if not folderpath.is_dir() or not folderpath.exists():
+        raise ValueError
+    return folderpath
 
 
-@dataclass
-class SqlFilePath(BasePathCls):
-    file_path: Path
-
-    def __init__(self, file_path: [Path, str]):
-        super(file_path).__init__()
-        self.file_path = self.path
-        if (
-            not self.file_path.is_file()
-            and self.file_path.exists()
-            and self.file_path.suffix == ".sql"
-        ):
-            raise ValueError
+# class ColumnDatatype(Enum):
+#     pass
 
 
-class ColumnDatatype(Enum):
-    pass
+class DbtColumn(BaseModel):
+    """Nested dbt column spec.
 
+    Once types are qualified in the Column Datatype, switch to
+    that for the enum purpose.
+    """
 
-@dataclass
-class DbtColumn:
     name: str
     description: str
     meta: dict
-    data_type: str  # Optional[ColumnDatatype]
+    data_type: Union[str, None]  # Optional[ColumnDatatype]
     quote: Optional[str]
 
 
-@dataclass
-class DbtModel:
+class DbtColumnDict(BaseModel):
+    """The Column dict as supplied by manifest.json."""
+
+    columns: Union[None, Dict[str, DbtColumn]]
+
+
+class DbtModel(BaseModel):
+    """The types for the base object from manifest.json.
+
+    Includes validators for path rows.
+    """
+
     compiled: bool
     resource_type: ModelType
     depends_on: dict
     unique_id: str
-    root_path: RootPath
-    path: SqlFilePath
-    original_file_path: SqlFilePath
+    root_path: Path
+    path: Path
+    original_file_path: Path
     name: str
     alias: str
-    refs: [str]
-    sources: [str]
-    columns: dict[str:DbtColumn]
+    refs: list[Optional[list[str]]]
+    sources: list[str]
+    columns: Union[None, dict[str, DbtColumn]]
+
+    @validator("path")
+    def path_validate(cls, v):  # noqa
+        """Validate filepath."""
+        return filepath_validator(v)
+
+    @validator("original_file_path")
+    def original_file_path_validate(cls, v):  # noqa
+        """Validate OG file path."""
+        return filepath_validator(v)
